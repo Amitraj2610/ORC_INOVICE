@@ -2,23 +2,21 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-  <!-- Invoice Title -->
-  <div class="invoice-title">INVOICE</div>
+<title>OM ROAD CARRIER - Invoice</title>
 <style>
   body {
     font-family: Arial, sans-serif;
     background: #f8f8f8;
-    font-size: 13px;
+    font-size: 10px;
     margin: 0;
     padding: 0;
   }
 
-  /* ✅ A4 Page Setup */
   .invoice-box {
     background: #fff;
     padding: 20px 30px;
     border: 2px solid #333;
-    width: 210mm;
+    width: 230mm;
     min-height: 297mm;
     margin: auto;
     box-sizing: border-box;
@@ -39,86 +37,92 @@
   header h1 {
     color: darkred;
     margin: 0;
-    font-size: 22px;
+    font-size: 18px;
+    font-weight: bold;
   }
   header p {
     margin: 2px 0;
-    font-size: 12px;
-  }
-
-  /* ✅ Invoice Title */
-  .invoice-title {
-    text-align: center;
-    font-size: 30px;
+    font-size: 14px;
     font-weight: bold;
-    margin: 12px 0;
-    text-transform: uppercase;
+    color: rgb(5, 16, 131);
   }
 
-  .bill-row {
+  .party-details {
     display: flex;
     justify-content: space-between;
-    margin: 10px 0;
+    margin-top: 8px;
+    border-bottom: 2px solid #333;
+    padding-bottom: 8px;
+    font-size: 13px;
   }
 
-  /* ✅ Party Name & Address */
-  .bill-to {
-    width: 60%;
+  .party-left {
+    width: 65%;
     border: 1px solid #333;
     padding: 10px;
-    font-size: 13px;
-    box-sizing: border-box;
-    background: #fafafa;
     border-radius: 6px;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
   }
-  .bill-to label {
-    font-weight: bold;
-    font-size: 13px;
-    display: block;
-    margin-bottom: 4px;
-  }
-  .bill-to input, 
-  .bill-to textarea {
-    width: 95%;
-    border: 1px solid #bbb;
-    border-radius: 4px;
-    padding: 6px 8px;
-    font-size: 13px;
-    margin-bottom: 6px;
-    resize: none;
-  }
-  .bill-to input::placeholder,
-  .bill-to textarea::placeholder {
-    color: #888;
-    font-style: italic;
-  }
-  .bill-to input {
+
+  .party-left label {
     font-weight: bold;
     font-size: 14px;
+    margin-bottom: 2px;
   }
 
-  .bill-info {
-    width: 38%;
+  .party-left input,
+  .party-left textarea {
+    width: 97%;
+    font-size: 14px;
+    padding: 6px;
+    border: 1px solid #666;
+    border-radius: 4px;
+    margin-bottom: 6px;
   }
-  .bill-info table {
+
+  .party-left input.bold-input {
+    font-weight: bold;
+  }
+
+  .party-right {
+    width: 32%;
+    border: 1px solid #333;
+    border-radius: 6px;
+    background: #fafafa;
+    padding: 4px;
+  }
+
+  .bill-info-table {
     width: 100%;
     border-collapse: collapse;
-    font-size: 12px;
+    font-size: 13px;
   }
-  .bill-info td {
-    border: 1px solid #333;
-    padding: 5px;
+  .bill-info-table td {
+    border-bottom: 1px solid #ccc;
+    padding: 6px 8px;
   }
-  .bill-info input {
-    border: none;
+  .bill-info-table td:first-child {
+    font-weight: bold;
+    width: 40%;
+    text-align: left;
+  }
+  .bill-info-table tr:last-child td {
+    border-bottom: none;
+  }
+  .bill-info-table input {
     width: 100%;
-    font-size: 12px;
+    border: none;
+    background: transparent;
+    outline: none;
+    font-size: 13px;
+    text-align: center;
   }
-  .bill-info input[type="date"] {
-    font-size: 12px;
+  .bill-info-table input.bold-input {
+    font-weight: bold;
   }
 
-  /* ✅ Table with Excel-like style */
   table {
     width: 100%;
     border: 2px solid #333;
@@ -128,11 +132,9 @@
   }
   table th, table td {
     padding: 10px;
-    text-align: center;
     font-size: 12px;
     border: 1px solid #333;
     word-wrap: break-word;
-    white-space: normal;
     vertical-align: middle;
   }
   table th {
@@ -140,14 +142,20 @@
     font-weight: bold;
   }
 
-  /* ✅ Totals Section */
+  .col-date { width: 12%; text-align: center; }
+  .col-lorry { width: 15%; text-align: center; font-weight: bold; }
+  .col-particulars { width: 35%; text-align: center; }
+  .col-qty { width: 10%; text-align: center; }
+  .col-rate { width: 13%; text-align: center; }
+  .col-amount { width: 15%; text-align: center; }
+
   .totals-section {
     display: flex;
     justify-content: flex-end;
     margin-top: 15px;
   }
   .totals-section .totals {
-    width: 35%;
+    width: 40%;
   }
   .totals-section table {
     width: 100%;
@@ -156,12 +164,26 @@
     font-size: 12px;
   }
   .totals-section table td {
-    padding: 8px;
-    text-align: right;
+    padding: 6px;
     border: 1px solid #333;
   }
+  .totals-section table td:first-child {
+    text-align: left;
+    font-weight: bold;
+  }
+  .totals-section table td:last-child {
+    text-align: right;
+  }
+  /* Bold Grand Total */
+  #grandTotal {
+    font-weight: bold;
+    font-size: 14px;
+  }
+  /* Bold Rupees in Words */
+  #inWords {
+    font-weight: bold;
+  }
 
-  /* ✅ Footer Section */
   .invoice-footer {
     display: flex;
     justify-content: space-between;
@@ -181,14 +203,14 @@
     text-align: right;
   }
 
-  /* ✅ Buttons */
   .btns {
     margin-top: 8px;
   }
   .btns button {
     padding: 5px 10px;
-    border: 1px solid #333;
-    background: #eee;
+    border-radius: 50px;
+    background: #39b8ef;
+    box-shadow: 5px 5px 5px;
     cursor: pointer;
     font-size: 12px;
     margin-right: 5px;
@@ -199,14 +221,14 @@
     display: block;
     padding: 8px 15px;
     border: none;
-    background: #333;
+    background: #464fed;
+    box-shadow: 5px 5px 5px;
     color: #fff;
-    border-radius: 4px;
+    border-radius: 50px;
     cursor: pointer;
     font-size: 14px;
   }
 
-  /* ✅ Hide buttons during print */
   @media print {
     .btns, .print-btn { display: none; }
     body { background: #fff; }
@@ -218,37 +240,34 @@
 <div class="invoice-box">
   <!-- Header -->
   <header>
-    <img src="ChatGPT 2.png" alt="ORC Logo">
+    <img src="GMI3.png" alt="ORC Logo">
     <h1>OM ROAD CARRIER</h1>
     <p>Fleet Owner & Commission Agent</p>
     <div>SF-46 Omkar Complex, Vala Road, GIDC Ankleshwar, Dist. Bharuch, Gujarat - 393002</div>
     <div>Email: omroadcarrierank@gmail.com | Mob: 9996356922 / 9909856922</div>
   </header>
 
+  <!-- Party / Invoice Details -->
+  <div class="party-details">
+    <div class="party-left">
+      <label>To:</label>
+      <input type="text" placeholder="Enter Party Name" list="partyList" class="bold-input">
 
+      <datalist id="partyList">
+        <option value="SUNSHINE INDIA INC.">
+        <option value="KMSN ENTERPRISES">
+        <option value="XYZ TRADERS">
+      </datalist>
 
-  <!-- Bill To & Info -->
-  <div class="bill-row">
-    <div class="bill-to">
-      <label>To</label>
-      <input type="text" placeholder="Enter Party Name">
-      <label>Address</label>
-      <textarea rows="4" placeholder="Enter Party Address"></textarea>
+      <label>Address:</label>
+      <textarea rows="3" placeholder="Enter Address"></textarea>
     </div>
-    <div class="bill-info">
-      <table>
-        <tr>
-          <td><b>Bill No</b></td>
-          <td><input type="text" value="123"></td>
-        </tr>
-        <tr>
-          <td><b>Bill Date</b></td>
-          <td><input type="date" value="2025-01-01"></td>
-        </tr>
-        <tr>
-          <td><b>PAN No</b></td>
-          <td><input type="text" value="GUOPK0596P"></td>
-        </tr>
+
+    <div class="party-right">
+      <table class="bill-info-table">
+        <tr><td>Bill No</td><td><input type="text" value="001" class="bold-input"></td></tr>
+        <tr><td>Date</td><td><input type="date"></td></tr>
+        <tr><td>PAN</td><td><input type="text" value="GUOPK0596P" class="bold-input"></td></tr>
       </table>
     </div>
   </div>
@@ -257,30 +276,26 @@
   <table id="itemTable">
     <thead>
       <tr>
-        <th>LR Date</th>
-        <th>UnLD Date</th>
-        <th>Lorry No</th>
-        <th>Locations</th>
-        <th>Qty</th>
-        <th>Freight</th>
-        <th>Balance</th>
+        <th class="col-date">LR Date</th>
+        <th class="col-lorry">Lorry No</th>
+        <th class="col-particulars">Particulars</th>
+        <th class="col-qty">Qty</th>
+        <th class="col-rate">Rate</th>
+        <th class="col-amount">Amount</th>
       </tr>
     </thead>
     <tbody id="itemBody">
-      <!-- ✅ One default row -->
       <tr>
-        <td contenteditable="true"></td>
-        <td contenteditable="true"></td>
-        <td contenteditable="true"></td>
-        <td contenteditable="true"></td>
-        <td contenteditable="true" oninput="calcTotal()"></td>
-        <td contenteditable="true" oninput="calcTotal()"></td>
-        <td class="balance">0</td>
+        <td class="col-date" contenteditable="true"></td>
+        <td class="col-lorry" contenteditable="true" style="font-weight:bold;"></td>
+        <td class="col-particulars" contenteditable="true"></td>
+        <td class="col-qty" contenteditable="true" oninput="calcTotal()"></td>
+        <td class="col-rate" contenteditable="true" oninput="calcTotal()"></td>
+        <td class="col-amount Amount">0</td>
       </tr>
     </tbody>
   </table>
 
-  <!-- Row Buttons -->
   <div class="btns">
     <button onclick="addRow()">➕ Add Row</button>
     <button onclick="deleteRow()">➖ Delete Row</button>
@@ -290,9 +305,10 @@
   <div class="totals-section">
     <div class="totals">
       <table>
-        <tr><td>Total</td><td id="total">0</td></tr>
-        <tr><td>Balance</td><td id="balance">0</td></tr>
-        <tr><td><b>Bill Amount</b></td><td id="billAmount">0</td></tr>
+        <tr><td>Sub Total</td><td id="subTotal">0</td></tr>
+        <tr><td>Detention</td><td><input type="number" id="detention" value="0" oninput="calcGrandTotal()" style="width:80px;text-align:center;border:none;"></td></tr>
+        <tr><td>Hamali</td><td><input type="number" id="hamali" value="0" oninput="calcGrandTotal()" style="width:80px;text-align:center;border:none;"></td></tr>
+        <tr><td><b>Grand Total</b></td><td id="grandTotal">0</td></tr>
       </table>
       <p style="margin-top:6px;"><b>Rs. in Words:</b> <span id="inWords"></span></p>
     </div>
@@ -307,14 +323,12 @@
       IFSC CODE: UTIB0000240<br>
       PANIPAT, HARYANA - 132103
     </div>
-
     <div class="signatory">
       For, <strong>OM ROAD CARRIER</strong><br><br>
       Authorised Signatory
     </div>
   </div>
 
-  <!-- Print Button -->
   <button class="print-btn" onclick="window.print()">🖨️ Print Invoice</button>
 </div>
 
@@ -322,37 +336,43 @@
 function addRow() {
   const row = itemBody.insertRow();
   row.innerHTML = `
-    <td contenteditable="true"></td>
-    <td contenteditable="true"></td>
-    <td contenteditable="true"></td>
-    <td contenteditable="true"></td>
-    <td contenteditable="true" oninput="calcTotal()"></td>
-    <td contenteditable="true" oninput="calcTotal()"></td>
-    <td class="balance">0</td>
+    <td class="col-date" contenteditable="true"></td>
+    <td class="col-lorry" contenteditable="true" style="font-weight:bold;"></td>
+    <td class="col-particulars" contenteditable="true"></td>
+    <td class="col-qty" contenteditable="true" oninput="calcTotal()"></td>
+    <td class="col-rate" contenteditable="true" oninput="calcTotal()"></td>
+    <td class="col-amount Amount">0</td>
   `;
 }
 
 function deleteRow() {
   const table = document.getElementById("itemBody");
-  if (table.rows.length > 1) { // ✅ Keep at least one row
+  if (table.rows.length > 1) {
     table.deleteRow(table.rows.length - 1);
     calcTotal();
   }
 }
 
 function calcTotal() {
-  let total = 0;
+  let subtotal = 0;
   document.querySelectorAll("#itemBody tr").forEach(row => {
-    const qty = parseFloat(row.cells[4].innerText) || 0;
-    const freight = parseFloat(row.cells[5].innerText) || 0;
-    const bal = qty * freight;
-    row.querySelector(".balance").innerText = bal.toFixed(2);
-    total += bal;
+    const qty = parseFloat(row.cells[3].innerText) || 0;
+    const rate = parseFloat(row.cells[4].innerText) || 0;
+    const amt = qty * rate;
+    row.querySelector(".Amount").innerText = amt.toFixed(2);
+    subtotal += amt;
   });
-  document.getElementById("total").innerText = total.toFixed(2);
-  document.getElementById("balance").innerText = total.toFixed(2);
-  document.getElementById("billAmount").innerText = total.toFixed(2);
-  document.getElementById("inWords").innerText = numberToWords(total);
+  document.getElementById("subTotal").innerText = subtotal.toFixed(2);
+  calcGrandTotal();
+}
+
+function calcGrandTotal() {
+  const subTotal = parseFloat(document.getElementById("subTotal").innerText) || 0;
+  const detention = parseFloat(document.getElementById("detention").value) || 0;
+  const hamali = parseFloat(document.getElementById("hamali").value) || 0;
+  const grandTotal = subTotal + detention + hamali;
+  document.getElementById("grandTotal").innerText = grandTotal.toFixed(2);
+  document.getElementById("inWords").innerText = numberToWords(grandTotal);
 }
 
 function numberToWords(num) {
